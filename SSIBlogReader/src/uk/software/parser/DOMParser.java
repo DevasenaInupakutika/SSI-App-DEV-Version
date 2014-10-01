@@ -121,11 +121,13 @@ public class DOMParser {
 							
 							//Parse the html description to get blog content without 'Read More'	
 						    org.jsoup.nodes.Document htmlDoc = Jsoup.parse(htmlString);
-							
+							 
 							Element blogs = htmlDoc.select("div[class=content]").first();
 							
 							Elements writer = htmlDoc.body().getElementsByAttributeValue("class", "submitted");
-							Elements pngs = htmlDoc.select("img");
+							
+						   //For image element of main image in blog post
+							Element pngs = blogs.select("img").first();
 							
 							sb1 = new StringBuilder();
 
@@ -135,7 +137,7 @@ public class DOMParser {
 							sb1.append("<link rel=stylesheet href='css/SSIStyle.css'>");
 							sb1.append("</head>");
 							sb1.append("<body>");
-							pngs.removeAttr("src");
+							pngs.remove(); //Removing main blog image from the webview content
 						    sb1.append(blogs.html().toString().replaceAll("&nbsp;", ""));
 						    sb1.append("<font color=#999999>");
 						    sb1.append(writer.text());

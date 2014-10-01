@@ -32,8 +32,8 @@ public class DetailFragment extends Fragment {
 	private int fPos;
 	RSSFeed fFeed;
 	private static final String TAG = "MyActivity";
-	private static String htmlString;
-	private static StringBuilder sb1;
+	//private static String htmlString;
+	//private static StringBuilder sb1;
 	
 	public ImageLoader imageLoader;
 	
@@ -43,6 +43,7 @@ public class DetailFragment extends Fragment {
 	String line = null;
 	StringBuffer sb;
 	WebView desc;
+	
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -50,7 +51,9 @@ public class DetailFragment extends Fragment {
 
 		fFeed = (RSSFeed) getArguments().getSerializable("feed");
 		fPos = getArguments().getInt("pos");
-		
+
+		imageLoader = new ImageLoader(getActivity().getApplicationContext());
+	
 	}
 
 	@Override
@@ -59,10 +62,9 @@ public class DetailFragment extends Fragment {
 		View view = inflater
 				.inflate(R.layout.detail_fragment, container, false);
 
-		imageLoader = new ImageLoader(view.getContext());
 		// Initialise views
 		TextView title = (TextView) view.findViewById(R.id.title);
-		ImageView iv = (ImageView) view.findViewById(R.id.thumb); 
+		ImageView iv = (ImageView) view.findViewById(R.id.iv); 
 		desc = (WebView) view.findViewById(R.id.desc);
 
 		// Enable the vertical fading edge (by default it is disabled)
@@ -83,7 +85,9 @@ public class DetailFragment extends Fragment {
 		
 		//new AsyncLoadLinkFeed().execute();
 		
-		//imageLoader.DisplayImage(fFeed.getItem(fPos).getImage(), iv);
+		Log.v(TAG, "Detailed Activity Image Link is:"+fFeed.getItem(fPos).getImage());
+		imageLoader.DisplayImage(fFeed.getItem(fPos).getImage(), iv);
+		
 		desc.loadDataWithBaseURL("file:///android_asset/",fFeed.getItem(fPos).getDescription(), "text/html", "UTF-8", null );
 		
 		return view;
